@@ -17,8 +17,9 @@ int main(int argc, char *argv[])
     int pid = strtol(argv[1], NULL, 10);
     unsigned long addr = strtoul(argv[2], NULL, 16);
     size_t len = strtol(argv[3], NULL, 10);
-
+    ssize_t input_str_len = 0;
     char *proc_mem = malloc(128);
+    
     sprintf(proc_mem, "/proc/%d/mem", pid);
 
     printf("Opening %s, address is %lx\n", proc_mem, addr);
@@ -39,11 +40,11 @@ int main(int argc, char *argv[])
     printf("%s\n", buf);
 
     printf("Input new string: ");
-    getline(&buf, &len, stdin);
+    input_str_len = getline(&buf, &len, stdin);
 
     lseek(fd_proc_mem, addr, SEEK_SET);
-
-    if (write(fd_proc_mem, buf, len) == -1)
+    printf("%ld\n", len);
+    if (--input_str_len > 0 && write(fd_proc_mem, buf, input_str_len) == -1)
     {
         printf("Error while writing\n");
         return 1;
