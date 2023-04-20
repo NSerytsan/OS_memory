@@ -17,7 +17,7 @@ int main()
     getline(&memory, &len, stdin);
 
     printf("Now execute\n");
-    printf("sudo ./app2 %d %lx %lu\n", pid, (long unsigned int)memory, mem_size);
+    printf("sudo ./app2 %d %p %lu\n", pid, memory, mem_size);
 
     printf("Press any key\n");
     getchar();

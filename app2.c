@@ -11,14 +11,14 @@ int main(int argc, char *argv[])
     if (argc != 4)
     {
         printf("Usage: app2 <pid> <addr> <length>\n");
-        exit(1);
+        return 1;
     }
 
     int pid = strtol(argv[1], NULL, 10);
     unsigned long addr = strtoul(argv[2], NULL, 16);
     size_t len = strtol(argv[3], NULL, 10);
 
-    char *proc_mem = malloc(256);
+    char *proc_mem = malloc(128);
     sprintf(proc_mem, "/proc/%d/mem", pid);
 
     printf("Opening %s, address is %lx\n", proc_mem, addr);
@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
     if (fd_proc_mem == -1)
     {
         printf("Could not open %s\n", proc_mem);
-        exit(1);
+        return 1;
     }
 
     char *buf = malloc(len);
@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
     if (write(fd_proc_mem, buf, len) == -1)
     {
         printf("Error while writing\n");
-        exit(1);
+        return 1;
     }
 
     printf("\nNow, this string is modified\n");
